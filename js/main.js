@@ -36,9 +36,10 @@
       timeLeft = timeToCountDown - passedTime;
       console.log(timeLeft);
       if(timeLeft < 0){
-        //clearTimeout(timerId);
+        //clearTimeout(timerId);//now I dont understand this row
         //to set up 0 of errors means nothing just timeLeft
         timeLeft = 0;
+        timeToCountDown = 0;//initialization of timer
         UpdateTimer(timeLeft);
         return;
       }
