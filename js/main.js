@@ -1,9 +1,9 @@
 (function(){
   'use strict';
-  var timer = document.getElementById('timer');
+  var timer = document.getElementById('timer');//
   var min = document.getElementById('min');
   var sec = document.getElementById('sec');
-  var start = document.getElementById('start');
+  var start = document.getElementById('start');//
   var restart = document.getElementById('restart');
 
   var startTime;
@@ -21,6 +21,7 @@
     msec = ('00' + msec).slice(-3);
     //extract the last two digits like 012->12, 02->02
     //the minus value means finding from a bottom
+    //getting by id of html
     timer.textContent = m + ':' + s + '.' + msec;
   }
 
@@ -34,10 +35,18 @@
       var passedTime = Date.now() - startTime;
       timeLeft = timeToCountDown - passedTime;
       console.log(timeLeft);
+      if(timeLeft < 0){
+        //clearTimeout(timerId);
+        //to set up 0 of errors means nothing just timeLeft
+        timeLeft = 0;
+        UpdateTimer(timeLeft);
+        return;
+      }
       UpdateTimer(timeLeft);
       CountDown();
     },10);
   }
+  //getting by id of html
   start.addEventListener('click', function(){
     startTime = Date.now();
     CountDown();
