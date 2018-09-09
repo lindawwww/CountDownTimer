@@ -5,12 +5,20 @@
   var sec = document.getElementById('sec');
   var start = document.getElementById('start');//
   var restart = document.getElementById('restart');
+  var pause = document.getElementById("pause");
 
   var startTime;
   var timeLeft;
-  var timeToCountDown = 4*1000;
+  var timeToCountDown = 0;
   var timerId;
+  var minutes = 0;
+  var seconds = 0;
+  var isRunning = false;
+  //A flag recognizing whether timer's done or not
+  //When it's done that's false, it can work again to push "reset"
+  //var isDone = false;
 
+  pause.style.display = "none";
   function UpdateTimer(t){
     var d = new Date(t);
     var m = d.getMinutes();
@@ -34,25 +42,69 @@
     timerId = setTimeout(function(){
       var passedTime = Date.now() - startTime;
       timeLeft = timeToCountDown - passedTime;
-      console.log(timeLeft);
-      if(timeLeft < 0){
-        //clearTimeout(timerId);//now I dont understand this row
-        //to set up 0 of errors means nothing just timeLeft
-        timeLeft = 0;
+      //console.log(timeLeft);
+      if(timeLeft <= 0){
+        clearTimeout(timerId);//to initialize the passing time by setTimeout(,)
+        timeLeft = 0;//In display to avoid errors, setting up timeLeft just to 0
         timeToCountDown = 0;//initialization of timer
         UpdateTimer(timeLeft);
+        start.style.display = "";
+        pause.style.display = "none";
+        isRunning = false;
+        //isDone = true;
         return;
       }
       UpdateTimer(timeLeft);
       CountDown();
     },10);
   }
-  //getting by id of html
   start.addEventListener('click', function(){
-    startTime = Date.now();
-    CountDown();
+    if(isRunning === false){ //&& isDone === false){
+      isRunning = true;
+      start.style.display = "none";
+      pause.style.display = "";
+      startTime = Date.now();
+      CountDown();
+    }
   });
-
-
+  pause.addEventListener('click', function(){
+    if(isRunning === true){ //&& isDone === false){
+      isRunning = false;
+      timeToCountDown = timeLeft;//Renew timeToCountDown to timeLeft
+      clearTimeout(timerId);
+      start.style.display = "";
+      pause.style.display = "none";
+    }
+  });
+  min.addEventListener('click',function(){
+    //while the timer is running
+    if(isRunning === true){
+      return;
+    } else {
+      //allowable operation is up to 59:00.000
+      if(timeToCountDown >= 59*60*1000){
+        return;
+      } else { timeToCountDown += 60 * 1000;}
+      UpdateTimer(timeToCountDown);
+    }
+  });
+  sec.addEventListener('click',function(){
+    if(isRunning === true){
+      return;
+    } else {
+      //allowable operation is up to 59:59.000
+      if(timeToCountDown >= 59*60*1000+59*1000){
+        return;
+      } else { timeToCountDown += 1000;}
+      UpdateTimer(timeToCountDown);
+    }
+  });
+  reset.addEventListener('click',function(){
+    isRunning = false;
+    //to avoid interfering isDone=true within CountDown function
+    //setTimeout(function(){ isDone = false;},10);
+    timeToCountDown = 0;
+    UpdateTimer(timeToCountDown);
+  });
 
 })();
