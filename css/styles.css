@@ -1,0 +1,37 @@
+body{
+  font-family: 'Courier New', sans-serif;
+  font-size: 14px;
+  background: #eee;
+}
+.container{
+  margin: 20px auto;/*outside space, clockwise rotation*/
+  width: 365px;
+  background: #fff;
+  padding: 15px;/*inside space, clockwise rotation*/
+  text-align: center;
+}
+#timer{
+  background: #ddd;
+  height: 120px;/*setting this section's height*/
+  line-height: 120px;/*setting a row's height*/
+  font-size: 40px;
+  margin-bottom: 15Px;
+}
+.controls > div{
+  cursor: pointer;
+  user-select: none;
+  width: 80px;
+  background: #ddd;
+  height: 45px;
+  line-height: 45px;
+  float: left;/*align the divisions in a row*/
+}
+.controls{
+  overflow: hidden;/*to adjust controls section*/
+}
+.controls > div + div{/*between divisions, making a space*/
+  margin-left:15px;
+}
+.controls > div:hover{
+  opacity: 0.7;
+}

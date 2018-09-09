@@ -5,7 +5,7 @@
   var sec = document.getElementById('sec');
   var start = document.getElementById('start');//
   var restart = document.getElementById('restart');
-  var pause = document.getElementById("pause");
+  var stop = document.getElementById("stop");
 
   var startTime;
   var timeLeft;
@@ -18,7 +18,7 @@
   //When it's done that's false, it can work again to push "reset"
   //var isDone = false;
 
-  pause.style.display = "none";
+  stop.style.display = "none";
   function UpdateTimer(t){
     var d = new Date(t);
     var m = d.getMinutes();
@@ -31,6 +31,7 @@
     //the minus value means finding from a bottom
     //getting by id of html
     timer.textContent = m + ':' + s + '.' + msec;
+    document.title = timer.textContent;
   }
 
   //Date.now is used msec, and timeToCountDown corresponds it.
@@ -49,7 +50,7 @@
         timeToCountDown = 0;//initialization of timer
         UpdateTimer(timeLeft);
         start.style.display = "";
-        pause.style.display = "none";
+        stop.style.display = "none";
         isRunning = false;
         //isDone = true;
         return;
@@ -62,18 +63,18 @@
     if(isRunning === false){ //&& isDone === false){
       isRunning = true;
       start.style.display = "none";
-      pause.style.display = "";
+      stop.style.display = "";
       startTime = Date.now();
       CountDown();
     }
   });
-  pause.addEventListener('click', function(){
+  stop.addEventListener('click', function(){
     if(isRunning === true){ //&& isDone === false){
       isRunning = false;
       timeToCountDown = timeLeft;//Renew timeToCountDown to timeLeft
       clearTimeout(timerId);
       start.style.display = "";
-      pause.style.display = "none";
+      stop.style.display = "none";
     }
   });
   min.addEventListener('click',function(){
